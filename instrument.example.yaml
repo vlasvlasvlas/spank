@@ -1,0 +1,100 @@
+title: spank residency lab
+
+web:
+  title: spank instrument
+  addr: 127.0.0.1:8765
+
+input:
+  min_amplitude: 0.05
+
+audio:
+  samples_enabled: true
+  samples_gain: 1.0
+  master_gain: 1.0
+  synth_gain: 1.0
+  recordings_dir: instrument_recordings
+  fx:
+    delay:
+      enabled: true
+      time_ms: 280
+      feedback: 0.42
+      mix: 0.30
+    reverb:
+      enabled: true
+      pre_delay_ms: 36
+      decay: 0.52
+      mix: 0.24
+  synth:
+    enabled: true
+    family: synth
+    wave: sine
+    frequency: 164
+    pitch_follow: 0.9
+    duration_ms: 320
+    attack_ms: 6
+    release_ms: 220
+    gain: 0.55
+  layers:
+    - id: pain-soft
+      label: Pain Soft
+      pack: pain
+      trigger: soft
+      family: pain
+      gain: 0.82
+      enabled: true
+      delay_send: 0.18
+      reverb_send: 0.32
+
+    - id: sexy-main
+      label: Sexy Main
+      pack: sexy
+      trigger: always
+      family: kinky
+      gain: 0.95
+      enabled: true
+      delay_send: 0.28
+      reverb_send: 0.36
+
+    - id: lizard-combo
+      label: Lizard Combo
+      pack: lizard
+      trigger: combo
+      family: combo
+      gain: 0.62
+      enabled: true
+      delay_send: 0.34
+      reverb_send: 0.28
+
+    - id: halo-impact
+      label: Halo Impact
+      pack: halo
+      trigger: hard
+      family: impact
+      gain: 0.45
+      enabled: false
+      delay_send: 0.20
+      reverb_send: 0.18
+
+visual:
+  base_palette: ["#07111f", "#14263c"]
+  soft_palette: ["#2fd3ff", "#71ffc7"]
+  hard_palette: ["#ff6b57", "#ffd166"]
+  combo_palette: ["#ff4fd8", "#8b5cff"]
+  families:
+    pain: ["#86f0ff", "#4cc9f0"]
+    kinky: ["#ff74a8", "#ff9770"]
+    impact: ["#ffb703", "#fb5607"]
+    combo: ["#d16bff", "#8338ec"]
+  impact:
+    flash_ms: 150
+    fade_ms: 900
+    color_rgb: [255, 255, 255]
+    full_scale_amplitude: 0.35
+    ripple_scale: 1.35
+    shake: 0.25
+    bloom: 0.35
+  combo:
+    reset_ms: 1500
+    decay_ms: 2200
+    milestones: [2, 5, 8, 12]
+    labels: ["tease", "build", "frenzy", "overload"]

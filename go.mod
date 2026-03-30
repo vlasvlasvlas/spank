@@ -7,6 +7,7 @@ require (
 	github.com/gopxl/beep/v2 v2.1.1
 	github.com/spf13/cobra v1.10.2
 	github.com/taigrr/apple-silicon-accelerometer v0.1.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

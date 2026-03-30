@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>spank instrument</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <canvas id="fx-canvas"></canvas>
+
+    <div class="top-actions">
+      <button id="help-toggle" class="icon-button" type="button" aria-label="Open help">?</button>
+      <button id="settings-toggle" class="icon-button" type="button" aria-label="Open settings">&#9881;</button>
+    </div>
+
+    <aside id="settings-drawer" class="drawer" aria-hidden="true">
+      <div class="drawer-header">
+        <div>
+          <div class="drawer-title" id="app-title">spank instrument</div>
+        </div>
+        <button id="settings-close" class="close-button" type="button" aria-label="Close settings">x</button>
+      </div>
+
+      <section class="section">
+        <div class="section-title">audio</div>
+        <label for="master-gain">master gain</label>
+        <div class="slider-row">
+          <input id="master-gain" type="range" min="0" max="1.5" step="0.01">
+          <span id="master-gain-value">1.00</span>
+        </div>
+        <label class="toggle-row"><input id="samples-enabled" type="checkbox"> wavs enabled</label>
+        <label class="toggle-row"><input id="synth-enabled-master" type="checkbox"> synth enabled</label>
+      </section>
+
+      <details class="accordion section">
+        <summary>vols</summary>
+        <div class="stack accordion-body">
+          <div>
+            <label for="samples-gain">wavs volume</label>
+            <div class="slider-row">
+              <input id="samples-gain" type="range" min="0" max="1.5" step="0.01">
+              <span id="samples-gain-value">1.00</span>
+            </div>
+          </div>
+          <div>
+            <label for="synth-gain">synth volume</label>
+            <div class="slider-row">
+              <input id="synth-gain" type="range" min="0" max="1.5" step="0.01">
+              <span id="synth-gain-value">1.00</span>
+            </div>
+          </div>
+          <div>
+            <label for="hit-threshold">hit threshold</label>
+            <div class="slider-row">
+              <input id="hit-threshold" type="range" min="0.01" max="1" step="0.01">
+              <span id="hit-threshold-value">0.05</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="accordion section">
+        <summary>wavs</summary>
+        <div class="stack accordion-body">
+          <div id="recording-controls" class="recording-box">
+            <label for="recording-name">new mic recording</label>
+            <input id="recording-name" type="text" placeholder="name">
+            <div class="button-row">
+              <button id="record-start-button" type="button">record</button>
+              <button id="record-stop-button" type="button" disabled>stop</button>
+            </div>
+            <div id="recording-status" class="hint">idle</div>
+            <div id="recording-editor" class="stack recording-editor is-hidden">
+              <canvas id="recording-waveform" class="recording-waveform"></canvas>
+              <div>
+                <label for="trim-start">trim start</label>
+                <div class="slider-row">
+                  <input id="trim-start" type="range" min="0" max="1" step="0.001" value="0">
+                  <span id="trim-start-value">0.00s</span>
+                </div>
+              </div>
+              <div>
+                <label for="trim-end">trim end</label>
+                <div class="slider-row">
+                  <input id="trim-end" type="range" min="0" max="1" step="0.001" value="1">
+                  <span id="trim-end-value">0.00s</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <button id="record-preview-button" type="button" disabled>preview</button>
+                <button id="record-save-button" type="button" disabled>save trimmed</button>
+                <button id="record-discard-button" class="secondary" type="button" disabled>discard</button>
+              </div>
+            </div>
+          </div>
+          <div id="layer-list" class="stack"></div>
+        </div>
+      </details>
+
+      <details class="accordion section">
+        <summary>synth</summary>
+        <div id="synth-controls" class="stack accordion-body"></div>
+      </details>
+
+      <details class="accordion section">
+        <summary>fx</summary>
+        <div id="fx-controls" class="stack accordion-body"></div>
+      </details>
+
+      <details class="accordion section">
+        <summary>flash</summary>
+        <div id="visual-controls" class="stack accordion-body"></div>
+      </details>
+
+      <details class="accordion section">
+        <summary>preset</summary>
+        <div class="stack accordion-body">
+          <div>
+            <label for="save-path">yaml path</label>
+            <input id="save-path" type="text">
+          </div>
+          <div class="button-row">
+            <button id="save-button" type="button">save yaml</button>
+            <span id="save-status" class="hint">ready</span>
+          </div>
+        </div>
+      </details>
+
+      <details class="accordion section">
+        <summary>status</summary>
+        <div class="stack hint accordion-body">
+          <div id="combo-tier">idle</div>
+          <div>combo <span id="combo-value">0</span></div>
+          <div id="energy-label">energy 0.00</div>
+          <div id="loops-label">loops 0</div>
+        </div>
+      </details>
+    </aside>
+
+    <div id="help-modal" class="modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="drawer-header">
+          <div>
+            <div class="drawer-title">about spank instrument</div>
+          </div>
+          <button id="help-close" class="close-button" type="button" aria-label="Close help">x</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            This instrument mode is a minimal audiovisual layer built on top of <code>spank</code>:
+            slap detection on Apple Silicon MacBooks that reacts with sound and visuals.
+          </p>
+          <p>
+            This version extends the original idea with a performance-oriented web interface, synth,
+            configurable flash color, loops, and YAML-driven settings.
+          </p>
+          <p>
+            Current project:
+            <a href="https://github.com/vlasvlasvlas/spank" target="_blank" rel="noreferrer">github.com/vlasvlasvlas/spank</a>
+          </p>
+          <p>
+            Original project by taigrr:
+            <a href="https://github.com/taigrr/spank" target="_blank" rel="noreferrer">github.com/taigrr/spank</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

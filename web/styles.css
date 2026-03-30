@@ -1,0 +1,299 @@
+:root {
+  --bg: #000000;
+  --panel: #0d0d0d;
+  --panel-2: #131313;
+  --border: #3a3a3a;
+  --text: #f4f4f4;
+  --muted: #8e8e8e;
+  --accent: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+body {
+  overflow: hidden;
+}
+
+#fx-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.icon-button,
+.close-button,
+button {
+  border: 1px solid var(--border);
+  background: #111;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.top-actions {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  font-size: 22px;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  width: min(420px, 100vw);
+  height: 100vh;
+  padding: 16px;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 120ms linear;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.drawer-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.close-button {
+  width: 28px;
+  height: 28px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.modal.is-open {
+  display: flex;
+}
+
+.modal-card {
+  width: min(560px, 100%);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 16px;
+}
+
+.modal-body {
+  display: grid;
+  gap: 12px;
+  color: #d7d7d7;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.modal-body a {
+  color: #ffffff;
+}
+
+.modal-body code {
+  background: #151515;
+  padding: 1px 4px;
+}
+
+.section {
+  padding: 12px 0;
+  border-top: 1px solid #1f1f1f;
+}
+
+.section:first-of-type {
+  border-top: 0;
+}
+
+.section-title {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.accordion {
+  padding-top: 8px;
+}
+
+.accordion summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion summary::before {
+  content: "[+]";
+  display: inline-block;
+  width: 34px;
+  color: var(--muted);
+}
+
+.accordion[open] summary::before {
+  content: "[-]";
+}
+
+.accordion-body {
+  padding-top: 10px;
+}
+
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.color-preview-block {
+  display: grid;
+  gap: 8px;
+}
+
+.color-preview {
+  width: 100%;
+  height: 56px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.channel-preview {
+  width: 100%;
+  height: 10px;
+  border: 1px solid var(--border);
+  background: #050505;
+}
+
+.channel-bar {
+  height: 100%;
+}
+
+.layer {
+  padding: 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+
+.recording-box {
+  padding: 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+
+.recording-editor.is-hidden {
+  display: none;
+}
+
+.recording-waveform {
+  width: 100%;
+  height: 96px;
+  border: 1px solid var(--border);
+  background: #050505;
+  display: block;
+}
+
+.layer-top,
+.layer-meta,
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.layer-tag,
+.hint {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.layer-name {
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #d2d2d2;
+}
+
+.toggle-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #ffffff;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  background: #050505;
+  color: var(--text);
+  font: inherit;
+}
+
+@media (max-width: 640px) {
+  .drawer {
+    width: 100vw;
+  }
+}

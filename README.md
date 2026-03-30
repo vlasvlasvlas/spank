@@ -40,8 +40,13 @@ go install github.com/taigrr/spank@latest
 
 ## Usage
 
+spank now has two complementary modalities:
+
+- **Classic**: the original CLI toy. Fast, minimal, no browser required.
+- **Instrument**: a browser-based audiovisual layer on top of the same slap detector, with mixer controls, FX, synth, recordings, loops, and YAML presets.
+
 ```bash
-# Normal mode — says "ow!" when slapped
+# Classic mode — says "ow!" when slapped
 sudo spank
 
 # Sexy mode — escalating responses based on slap frequency
@@ -54,8 +59,14 @@ sudo spank --halo
 sudo spank --fast
 sudo spank --sexy --fast
 
-# Custom mode — plays your own MP3 files from a directory
+# Custom mode — plays your own MP3/WAV files from a directory
 sudo spank --custom /path/to/mp3s
+
+# Instrument mode — local browser UI with mixer, recordings, and YAML presets
+sudo spank --instrument
+sudo spank --instrument --config ./instrument.example.yaml
+./spank_instrument.sh
+./spank_instrument.sh ./instrument.example.yaml
 
 # Adjust sensitivity with amplitude threshold (lower = more sensitive)
 sudo spank --min-amplitude 0.1   # more sensitive
@@ -73,13 +84,83 @@ sudo spank --sexy --speed 0.6
 
 ### Modes
 
+### Classic Mode
+
+Classic mode is the original `spank` experience:
+
+- accelerometer-driven slap detection in the terminal
+- immediate audio playback from built-in packs or your own files
+- no browser, no extra UI, no preset editing required
+
+Run it with:
+
+```bash
+sudo spank
+sudo spank --sexy
+sudo spank --halo
+sudo spank --lizard
+sudo spank --custom /path/to/audio
+```
+
 **Pain mode** (default): Randomly plays from 10 pain/protest audio clips when a slap is detected.
 
 **Sexy mode** (`--sexy`): Tracks slaps within a rolling 5-minute window. The more you slap, the more intense the audio response. 60 levels of escalation.
 
 **Halo mode** (`--halo`): Randomly plays from death sound effects from the Halo video game series when a slap is detected.
 
-**Custom mode** (`--custom`): Randomly plays MP3 files from a custom directory you specify.
+**Custom mode** (`--custom`): Randomly plays MP3 or WAV files from a custom directory you specify.
+
+**Instrument mode** (`--instrument`): Launches a local browser-based lab at `http://127.0.0.1:8765` with reactive visuals, live mixer controls, synth, FX, and managed recordings. The classic CLI detector remains unchanged; instrument mode is an additional surface layered on top.
+
+### Instrument Mode
+
+Instrument mode preserves the original accelerometer-driven behavior and adds:
+
+- browser-based visual feedback with instant full-screen color impact
+- separate master, WAV, and synth gain controls in the web UI
+- editable hit threshold in the web UI and YAML
+- global delay/reverb controls and a synth voice in the web UI
+- loop-capable layers for persistent textures in instrument mode
+- live microphone recording to managed `.wav` layers you can trim, preview, save, and delete
+- YAML configuration for palettes, triggers, mixer, FX, and synth defaults
+- support for both `.mp3` and `.wav` files in custom audio layers
+
+Start it with:
+
+```bash
+sudo spank --instrument
+sudo spank --instrument --config ./instrument.example.yaml
+./spank_instrument.sh
+./spank_instrument.sh ./instrument.example.yaml
+```
+
+Use [`instrument.example.yaml`](./instrument.example.yaml) as a starting point for residency or performance presets.
+Set `loop: true` on any instrument layer in YAML to have that source latch as a texture until the combo state cools off.
+The web UI can save the current instrument state back to YAML. If you launched without `--config`, it defaults to `./instrument.session.yaml`.
+
+Current UI behavior:
+
+- black fullscreen stage with reactive flash visuals
+- minimal settings drawer behind the gear icon
+- `master gain` at the top of audio controls
+- `vols` accordion for WAV gain, synth gain, and hit threshold
+- `wavs` accordion with mic recording, waveform view, trim start/end, preview, save, and delete
+- flash editor with RGB color and fade-out time
+- synth defaults to `sine`
+
+Current flash defaults:
+
+- white attack is fixed at `20ms`
+- full color is reached at amplitude `0.05`
+- only `fade out` is exposed in the UI
+
+How it works:
+
+1. `spank` still reads the accelerometer directly from Apple Silicon hardware.
+2. In `instrument mode`, each detected slap is turned into an audiovisual event.
+3. The Go backend serves a local web UI and streams impact events to it.
+4. The UI reacts instantly with color and mixer feedback.
+5. Audio layers, recordings, FX, synth settings, and loop behavior can be edited live and saved back to YAML.
 
 ### Detection tuning
 
