@@ -43,7 +43,7 @@ go install github.com/taigrr/spank@latest
 spank now has two complementary modalities:
 
 - **Classic**: the original CLI toy. Fast, minimal, no browser required.
-- **Instrument**: a browser-based audiovisual layer on top of the same slap detector, with mixer controls, FX, synth, recordings, loops, and YAML presets.
+- **SpankSynth**: a browser-based audiovisual layer on top of the same slap detector, with mixer controls, FX, synth, recordings, loops, and YAML presets.
 
 ```bash
 # Classic mode — says "ow!" when slapped
@@ -62,7 +62,7 @@ sudo spank --sexy --fast
 # Custom mode — plays your own MP3/WAV files from a directory
 sudo spank --custom /path/to/mp3s
 
-# Instrument mode — local browser UI with mixer, recordings, and YAML presets
+# SpankSynth mode — local browser UI with mixer, recordings, and YAML presets
 sudo spank --instrument
 sudo spank --instrument --config ./instrument.example.yaml
 ./spank_instrument.sh
@@ -110,11 +110,11 @@ sudo spank --custom /path/to/audio
 
 **Custom mode** (`--custom`): Randomly plays MP3 or WAV files from a custom directory you specify.
 
-**Instrument mode** (`--instrument`): Launches a local browser-based lab at `http://127.0.0.1:8765` with reactive visuals, live mixer controls, synth, FX, and managed recordings. The classic CLI detector remains unchanged; instrument mode is an additional surface layered on top.
+**SpankSynth mode** (`--instrument`): Launches a local browser-based lab at `http://127.0.0.1:8765` with reactive visuals, live mixer controls, synth, FX, and managed recordings. The classic CLI detector remains unchanged; it is an additional surface layered on top.
 
-### Instrument Mode
+### SpankSynth Mode
 
-Instrument mode preserves the original accelerometer-driven behavior and adds:
+SpankSynth preserves the original accelerometer-driven behavior and adds:
 
 - browser-based visual feedback with instant full-screen color impact
 - separate master, WAV, and synth gain controls in the web UI

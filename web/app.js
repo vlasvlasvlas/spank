@@ -65,6 +65,7 @@ const els = {
   helpModal: document.getElementById("help-modal"),
   helpClose: document.getElementById("help-close"),
   canvas: document.getElementById("fx-canvas"),
+  bootSplash: document.getElementById("boot-splash"),
 };
 
 const ctx = els.canvas.getContext("2d");
@@ -73,6 +74,7 @@ let eventSource;
 let lastFrame = performance.now();
 
 async function boot() {
+  startBootSplash();
   bindDrawer();
   bindRecordingControls();
   const response = await fetch("/api/state");
@@ -81,6 +83,20 @@ async function boot() {
   connectEvents();
   resizeCanvas();
   requestAnimationFrame(tick);
+}
+
+function startBootSplash() {
+  if (!els.bootSplash) return;
+  window.setTimeout(() => {
+    els.bootSplash.classList.add("is-visible");
+  }, 10);
+  window.setTimeout(() => {
+    els.bootSplash.classList.add("is-hidden");
+    els.bootSplash.classList.remove("is-visible");
+    window.setTimeout(() => {
+      els.bootSplash.style.display = "none";
+    }, 100);
+  }, 2000);
 }
 
 function bindDrawer() {
